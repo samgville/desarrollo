@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{64C7FA06-721F-4338-A867-30DE53B121EE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PruebasUnitariasTotem</RootNamespace>
+    <AssemblyName>PruebasUnitariasTotem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.mocks">
+      <HintPath>..\..\packages\NUnit.Mocks.2.6.4\lib\nunit.mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Modulo1\PruebaExcepciones.cs" />
+    <Compile Include="Modulo1\PruebaBDLogin.cs" />
+    <Compile Include="Modulo1\PruebaLogicaLogin.cs" />
+    <Compile Include="Modulo1\RecursosPUMod1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RecursosPUMod1.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Modulo2\PruebaBDCliente.cs" />
+    <Compile Include="Modulo2\PruebaCliente.cs" />
+    <Compile Include="Modulo2\PruebaContacto.cs" />
+    <Compile Include="Modulo2\PruebaLogicaCliente.cs" />
+    <Compile Include="Modulo2\PruebaLogicaContacto.cs" />
+    <Compile Include="Modulo2\PruebaLugar.cs" />
+    <Compile Include="Modulo3\PruebaBDInvolucrados.cs" />
+    <Compile Include="Modulo3\PruebaListaInvContacto.cs" />
+    <Compile Include="Modulo3\PruebaListaInvUsuario.cs" />
+    <Compile Include="Modulo3\PruebaLogicaInvolucrados.cs" />
+    <Compile Include="Modulo4\PruebaExcepciones.cs" />
+    <Compile Include="Modulo4\PruebaLogicaProyecto.cs" />
+    <Compile Include="Modulo4\Prueba_Proyecto.cs" />
+    <Compile Include="Modulo6\PruebaActor.cs" />
+    <Compile Include="Modulo6\PruebaBDActor.cs" />
+    <Compile Include="Modulo6\PruebaLogicaActor.cs" />
+    <Compile Include="Modulo7\PruebaBDUsuario.cs" />
+    <Compile Include="Modulo8\PruebaBDAcuerdo.cs" />
+    <Compile Include="Modulo8\PruebaBDInvolucrados.cs" />
+    <Compile Include="Modulo8\PruebaBDMinuta.cs" />
+    <Compile Include="Modulo8\PruebaBDPunto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modulo5\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatosTotem\DatosTotem.csproj">
+      <Project>{b4b3079e-15ec-4575-89cd-5ff052c22bda}</Project>
+      <Name>DatosTotem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DominioTotem\DominioTotem.csproj">
+      <Project>{71398660-3b9b-4bed-91b3-b968a4ebf02e}</Project>
+      <Name>DominioTotem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExcepcionesTotem\ExcepcionesTotem.csproj">
+      <Project>{aaa3900a-9ced-4f07-9cee-d86208c39437}</Project>
+      <Name>ExcepcionesTotem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicaNegociosTotem\LogicaNegociosTotem.csproj">
+      <Project>{70c79b2e-094d-49ba-bc84-d7cd7443abff}</Project>
+      <Name>LogicaNegociosTotem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Modulo1\RecursosPUMod1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>RecursosPUMod1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
