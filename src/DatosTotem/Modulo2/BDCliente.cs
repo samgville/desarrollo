@@ -19,18 +19,27 @@ namespace DatosTotem.Modulo2
     public class BDCliente
     {
 
-        private BDConexion _operacionBD;
-        private ClienteNatural Clientenatural = new ClienteNatural();
-        private SqlConnection conexion;
-        private SqlCommand comando; 
-
+        //Conexion de la BD e instruccion a realizar
+        SqlConnection conexion;
+        SqlCommand comando;
         /// <summary>
         /// Constructor de la Clase BDCliente
         /// </summary>
         public BDCliente() 
         {
-            //this.conexion = new SqlConnection(@"Data Source=(LocalDB)\v11.0;AttachDbFilename=C:\Users\Svillami\Desktop\totem - copia de las 1218 290515\src\DatosTotem\BaseDeDatos\BaseDeDatosTotem.mdf;Integrated Security=True");
-            this.conexion = new SqlConnection(@RecursoGeneralBD.StringDeConexion);
+            try
+            {
+                //Obtenemos la ruta de la Base de Datos
+                String[] aux = AppDomain.CurrentDomain.BaseDirectory.Split(new string[] { "src" }, StringSplitOptions.None);
+                String configuracion = @"Data Source=(LocalDB)\v11.0;AttachDbFilename=" + aux[0] + @"src\DatosTotem\BaseDeDatos\BaseDeDatosTotem.mdf;Integrated Security=True";
+
+                //La colocamos en la configuracion
+                this.conexion = new SqlConnection(configuracion);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Error en la Configuracion de la BD", e);
+            }
         }
 
 
@@ -99,7 +108,7 @@ namespace DatosTotem.Modulo2
         /// </summary>
         /// <param name="clienteNatural">Información del Cliente Natural</param>
         /// <returns>Retorna true si lo realizó, false en caso contrario</returns>
-        public bool AgregarClienteNatural(ClienteNatural clienteNatural , int fkLugar) 
+        public bool AgregarClienteNatural(ClienteNatural clienteNatural , int fkLugar, int codigo, int numero) 
         {
 
              bool respuesta = false;
@@ -111,11 +120,18 @@ namespace DatosTotem.Modulo2
                 this.comando = new SqlCommand(RecursosBaseDeDatosModulo2.ProcedureAgregarClienteNatural, this.conexion);
                 this.comando.CommandType = CommandType.StoredProcedure;
 
-                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.Parametroidentificador, Clientenatural.Nat_Id);
-                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroNombren, Clientenatural.Nat_Nombre);
-                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroApellidon, Clientenatural.Nat_Apellido);
-                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroCorreon, Clientenatural.Nat_Correo);
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.Parametroidentificador, clienteNatural.Nat_Id);
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroNombren, clienteNatural.Nat_Nombre);
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroApellidon, clienteNatural.Nat_Apellido);
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroCorreon, clienteNatural.Nat_Correo);
+
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.NombreDireccion, clienteNatural.Nat_Direccion);
                 this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.ParametroLugarn, fkLugar);
+
+              
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.Codigo, codigo);
+                this.comando.Parameters.AddWithValue(RecursosBaseDeDatosModulo2.Numero, numero);
+                
                 this.conexion.Open();
 
                 nroDeFilasAfectadas = this.comando.ExecuteNonQuery();

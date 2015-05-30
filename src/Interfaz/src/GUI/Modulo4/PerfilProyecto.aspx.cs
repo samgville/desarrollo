@@ -8,6 +8,7 @@ using System.Text;
 
 public partial class GUI_Modulo4_PerfilProyecto : System.Web.UI.Page
 {
+    private DominioTotem.Proyecto esteProyecto = new DominioTotem.Proyecto();
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -71,8 +72,8 @@ public partial class GUI_Modulo4_PerfilProyecto : System.Web.UI.Page
             }
         }
 
-        DominioTotem.Proyecto proyecto = new DominioTotem.Proyecto();
-        proyecto = LogicaNegociosTotem.Modulo4.LogicaProyecto.ConsultarProyecto(success[0]);
+        //DominioTotem.Proyecto proyecto = new DominioTotem.Proyecto();
+        esteProyecto = LogicaNegociosTotem.Modulo4.LogicaProyecto.ConsultarProyecto(success[0]);
 
 
         HttpCookie projectCookie = Request.Cookies.Get("selectedProjectCookie");
@@ -80,26 +81,26 @@ public partial class GUI_Modulo4_PerfilProyecto : System.Web.UI.Page
         if (projectCookie == null)
         {
             projectCookie = new HttpCookie("selectedProjectCookie");
-            projectCookie.Values["projectCode"] = proyecto.Codigo;
-            projectCookie.Values["projectName"] = proyecto.Nombre;
+            projectCookie.Values["projectCode"] = esteProyecto.Codigo;
+            projectCookie.Values["projectName"] = esteProyecto.Nombre;
             Response.Cookies.Add(projectCookie);
         }
-        else if (projectCookie.Values["projectCode"] != proyecto.Codigo)
+        else if (projectCookie.Values["projectCode"] != esteProyecto.Codigo)
         {
             //ScriptManager.RegisterStartupScript(this,typeof(Page),"CallMyFunction","openModal()",true);
             Response.Cookies.Remove("selectedProjectCookie");
             projectCookie = new HttpCookie("selectedProjectCookie");
-            projectCookie.Values["projectCode"] = proyecto.Codigo;
-            projectCookie.Values["projectName"] = proyecto.Nombre;
+            projectCookie.Values["projectCode"] = esteProyecto.Codigo;
+            projectCookie.Values["projectName"] = esteProyecto.Nombre;
             Response.Cookies.Add(projectCookie);
         }
 
 
 
         this.div_proyecto.InnerHtml = "<div class='jumbotron'>";
-        this.div_proyecto.InnerHtml += "<h2 class='sameLine bootstrapBlue' id='nombreProyecto' runat='server'>"+proyecto.Nombre+"</h2> <h5 class='sameLine'>COD: </h5> <h5 id='codigoProyecto' class='sameLine' runat='server'>"+proyecto.Codigo+"</h5>";
-        this.div_proyecto.InnerHtml += "<p class='desc'>"+proyecto.Descripcion+"</p>";
-        if (proyecto.Estado == true)
+        this.div_proyecto.InnerHtml += "<h2 class='sameLine bootstrapBlue' id='nombreProyecto' runat='server'>" + esteProyecto.Nombre + "</h2> <h5 class='sameLine'>COD: </h5> <h5 id='codigoProyecto' class='sameLine' runat='server'>" + esteProyecto.Codigo + "</h5>";
+        this.div_proyecto.InnerHtml += "<p class='desc'>" + esteProyecto.Descripcion + "</p>";
+        if (esteProyecto.Estado == true)
         {
             this.div_proyecto.InnerHtml += "<input disabled checked data-toggle='toggle' data-size='normal' type='checkbox' data-on='Activo' data-off='Inactivo' data-onstyle='success' data-offstyle='warning' data-width='100'>";
         }
@@ -109,8 +110,6 @@ public partial class GUI_Modulo4_PerfilProyecto : System.Web.UI.Page
         }
         this.div_proyecto.InnerHtml += "<br><br>";
         this.div_proyecto.InnerHtml += "<p class='sameLine'>Cliente: </p><p id='nombreCliente' class='sameLine bootstrapBlue'>"+"</p>";
-        this.div_proyecto.InnerHtml += "<br>";
-        this.div_proyecto.InnerHtml += "<p class='sameLine'>Desarroladora: </p><p id='nombreDesarrolladora' class='sameLine bootstrapBlue'>"+"</p>";
         this.div_proyecto.InnerHtml += "<br><br>";
         this.div_proyecto.InnerHtml += "<p>Progreso:</p>";
         this.div_proyecto.InnerHtml += "<div class='progress'>";
@@ -120,21 +119,29 @@ public partial class GUI_Modulo4_PerfilProyecto : System.Web.UI.Page
         this.div_proyecto.InnerHtml += "</div>";
         this.div_proyecto.InnerHtml += "</div>";
         this.div_proyecto.InnerHtml += "</div>";
+
+        this.modifyButton.Text += "<a class='btn btn-primary' runat='server' href='ModificarProyecto.aspx?success='" + esteProyecto.Codigo + "&success=-1'>Modificar</a>";
     }
 
     public void Ers(object sender, EventArgs e)
     {
-        HttpCookie projectCookie = Request.Cookies.Get("selectedProjectCookie");
-        LogicaNegociosTotem.Modulo4.LogicaProyecto.GenerarERS(projectCookie.Values["projectCode"]);
-        Response.ClearContent();
-        Response.ClearHeaders();
-        Response.ContentType = "application/pdf";
-        Response.AddHeader
-        ("Content-Disposition", "attachment; filename=" + "ers.tex");
-        Response.TransmitFile("ers.pdf");
-        Response.End();
-        //Response.WriteFile(strS);
-        Response.Flush();
-        Response.Clear();
+        try
+        {
+            HttpCookie projectCookie = Request.Cookies.Get("selectedProjectCookie");
+            LogicaNegociosTotem.Modulo4.LogicaProyecto.GenerarERS(projectCookie.Values["projectCode"]);
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.ContentType = "application/pdf";
+            //Response.AddHeader("Content-Disposition", "attachment; filename=" + "ers.pdf");
+            Response.TransmitFile(@"C:\Program Files (x86)\IIS Express\ers.pdf");
+            Response.End();
+            //Response.WriteFile(strS);
+            Response.Flush();
+            Response.Clear();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
     }
 }
